@@ -18,53 +18,55 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - ./config/mediarr/sonarr:/config
-      - myMedia:/home/media
-      - myDlFolders:/home/downloads
+      - myMedia:/data/media
+
     depends_on:
       - transmission
       - jackett
+#    modify permissions
+#    command: sh -c " chown -R 1000:1000 ./data/media &&  chmod -R u+rw ./data/media"
 
 # for movies
-  radarr:
-    image: linuxserver/radarr:latest
-    container_name: radarr
-    restart: unless-stopped
-    networks:
-      - mediarr
-    ports:
-      - "7878:7878"
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Berlin
-    volumes:
-      - ./config/mediarr/radarr:/config
-      - myMedia:/home/media
-      - myDlFolders:/home/downloads
-    depends_on:
-      - transmission
-      - jackett
+#  radarr:
+#    image: linuxserver/radarr:latest
+#    container_name: radarr
+#    restart: unless-stopped
+#    networks:
+#      - mediarr
+#    ports:
+#      - "7878:7878"
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=Europe/Berlin
+#    volumes:
+#      - ./config/mediarr/radarr:/config
+#      - myMedia:/home/media
+#      - myDlFolders:/home/downloads
+#    depends_on:
+#      - transmission
+#      - jackett
 
 # Subs (or just get hardsubbed stuff from nyaa.si)
-  bazarr:
-    image: linuxserver/bazarr:latest
-    container_name: bazarr
-    restart: unless-stopped
-    networks:
-      - mediarr
-    ports:
-      - "6767:6767"
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Berlin
-    volumes:
-      - ./config/mediarr/bazarr:/config
-      - myMedia:/home/media
-      - myDlFolders:/home/downloads
-    depends_on:
-      - sonarr
-      - radarr
+#  bazarr:
+#    image: linuxserver/bazarr:latest
+#    container_name: bazarr
+#    restart: unless-stopped
+#    networks:
+#      - mediarr
+#    ports:
+#      - "6767:6767"
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=Europe/Berlin
+#    volumes:
+#      - ./config/mediarr/bazarr:/config
+#      - myMedia:/home/media
+#      - myDlFolders:/home/downloads
+#    depends_on:
+#      - sonarr
+#      - radarr
 
 # Trackers
   jackett:
@@ -81,10 +83,10 @@ services:
       - TZ=Europe/Berlin
     volumes:
       - ./config/mediarr/jackett:/config
-      - myMedia:/home/media
-      - myDlFolders:/home/downloads
+      - myMedia:/data/media
 
   # maybe replace with qbit later
+#  todo find port for sonarr
   transmission:
     image: linuxserver/transmission:latest
     container_name: transmission
@@ -100,39 +102,46 @@ services:
       - PGID=1000
       - TZ=Europe/Berlin
     volumes:
+#      todo: use downloads mount for torrent downloader. must be inside data
       - ./config/mediarr/transmission:/config
-      - myMedia:/home/media
-      - myDlFolders:/home/downloads
+      - myDownloads:/data/downloads
+#      - myData:/data
 
 # MediaPlayer - not sure if i wanna use this
-  jellyfin:
-    image: jellyfin/jellyfin:latest
-    container_name: jellyfin
-    restart: unless-stopped
-    networks:
-      - mediarr
-    ports:
-      - "8096:8096"
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Berlin
-    volumes:
-      - ./config/mediarr/jellyfin:/config
-      - myMedia:/home/media
-      - myDlFolders:/home/downloads
-    depends_on:
-      - sonarr
-      - radarr
+#  jellyfin:
+#    image: jellyfin/jellyfin:latest
+#    container_name: jellyfin
+#    restart: unless-stopped
+#    networks:
+#      - mediarr
+#    ports:
+#      - "8096:8096"
+#    environment:
+#      - PUID=1000
+#      - PGID=1000
+#      - TZ=Europe/Berlin
+#    volumes:
+#      - ./config/mediarr/jellyfin:/config
+#      - myMedia:/home/media
+#      - myDlFolders:/home/downloads
+#    depends_on:
+#      - sonarr
+#      - radarr
 
 networks:
   mediarr:
     driver: bridge
 
 volumes:
-  myData:
+  myMedia:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: ./data
+      device: ./data2/media
+  myDownloads:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ./data2/downloads
