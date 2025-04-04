@@ -1,5 +1,5 @@
 # todo list
-- 
+- https://www.xrel.to/entertainment-series.html
 
 
 # StarrComposer
@@ -82,8 +82,34 @@ what is Sonarr? [ultimate-guide-to-sonarr](https://www.rapidseedbox.com/blog/ult
     ├── books
     └── tv
  ```
-
 Torrenting Software (Traktor, qBit) only need `data/torrents` mounted.
 The Starrs need the whole `data` folder mounted.
+
+for testing I used a simpled folder structure
+
+```bash
+data
+|-- media
+|--Downloads
+```
+
+Traktor uses `data/downloads and completed files are renamed and moved  `data/media` by Sonarr
+
+## FAQ
+Q: My series are downloaded but they are not moved to the `media` folder.
+A: check the Logs for a Permission Error. sonarr needs to have write permissions for the media folder.
+this should be taken care of by the compose file, but you should check the permissions just to be sure.
+
+```bash
+#find container id
+docker ps
+#open terminal inside the container
+docker exec -it [continer id]  sh
+#check folder permissions
+ ls -ld /[path]
+```
+
+
+
 
 ![https://www.rapidseedbox.com/wp-content/uploads/image3-18.png](https://www.rapidseedbox.com/wp-content/uploads/image3-18.png)

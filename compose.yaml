@@ -19,11 +19,12 @@ services:
     volumes:
       - ./config/mediarr/sonarr:/config
       - myMedia:/data/media
+      - myDownloads:/data/downloads
 
     depends_on:
       - transmission
       - jackett
-#    modify permissions
+#    modify permissions (needed so sonarr can copy complete files to media
 #    command: sh -c " chown -R 1000:1000 ./data/media &&  chmod -R u+rw ./data/media"
 
 # for movies
@@ -108,24 +109,24 @@ services:
 #      - myData:/data
 
 # MediaPlayer - not sure if i wanna use this
-#  jellyfin:
-#    image: jellyfin/jellyfin:latest
-#    container_name: jellyfin
-#    restart: unless-stopped
-#    networks:
-#      - mediarr
-#    ports:
-#      - "8096:8096"
-#    environment:
-#      - PUID=1000
-#      - PGID=1000
-#      - TZ=Europe/Berlin
-#    volumes:
-#      - ./config/mediarr/jellyfin:/config
-#      - myMedia:/home/media
-#      - myDlFolders:/home/downloads
-#    depends_on:
-#      - sonarr
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    restart: unless-stopped
+    networks:
+      - mediarr
+    ports:
+      - "8096:8096"
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Berlin
+    volumes:
+      - ./config/mediarr/jellyfin:/config
+      - myMedia:/media
+      - myDownloads:/downloads
+    depends_on:
+      - sonarr
 #      - radarr
 
 networks:
