@@ -23,7 +23,7 @@
     "encryption": 1,
     "idle-seeding-limit": 30,
     "idle-seeding-limit-enabled": false,
-    "incomplete-dir": "/data/downloads/incomplete",
+    "incomplete-dir": "/data/torrents/incomplete",
     "incomplete-dir-enabled": false,
     "lpd-enabled": false,
     "message-level": 2,
