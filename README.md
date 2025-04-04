@@ -6,6 +6,7 @@
 
 ## Introduction
 
+*All Accounts use name `nu03` and password `Sonne-123$` please change this in the settings of the relevant services*
 ## Sonarr
 
 This is for managint TV series and anime. if a new series is added sonar will scan the attached volumes. 
@@ -53,6 +54,12 @@ found in the `config/mediarr/transmission` folder
 ### qBitTorrent
 
 It's just better than Transmission, but you can't set upload to 0.
+
+## Streaming Service
+
+### Jellyfin
+basically just make an account,set a password and selecd the `media` folder. all the content iside `media` willl be displayed netflix style.
+I choose the option to only allow local connections (localhost) since I will only use this locally. If you want to allow access I suggest you consult the [Servarr wiki](https://wiki.servarr.com/docker-guide).
 
 ## Notes
 ### Links
